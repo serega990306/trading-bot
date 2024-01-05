@@ -1,0 +1,5 @@
+fastapi==0.108.0
+uvicorn==0.25.0
+pydantic-settings==2.1.0
+orjson==3.9.10
+gunicorn==21.2.0

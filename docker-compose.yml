@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+
+  notifications:
+    container_name: notifications
+    build: notifications
+    image: serega990306/notifications:latest
+    restart: always
+    env_file:
+      - notifications/.env.example
+    expose:
+      - "8000"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/configs:/etc/nginx/conf.d:ro
+      - static_volume:/api/static/
+    ports:
+      - "80:80"
+
+volumes:
+  static_volume:
