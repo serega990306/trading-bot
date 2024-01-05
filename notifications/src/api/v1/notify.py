@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from http import HTTPStatus
 from fastapi import APIRouter
+from fastapi import Request
 import logging
 
 logger = logging.getLogger(__name__)
@@ -29,8 +30,10 @@ router = APIRouter()
 )
 async def post_notification(
         currency: str,
-        data
+        request: Request
 ) -> dict:
     logger.info(f'Получено оповещение')
+    data = await request.body()
+    data = data.decode()
     logger.info(data)
     return {'status': HTTPStatus.OK}
