@@ -1,26 +1,13 @@
-from typing import List
-from uuid import UUID
-from pydantic import BaseModel
-from datetime import datetime
-from http import HTTPStatus
-from fastapi import APIRouter
-from fastapi import Request
 import logging
+from http import HTTPStatus
+from fastapi import APIRouter, Depends, Request
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from services.notify_handler import NotifyHandler
+from db.session import get_session
 
 logger = logging.getLogger(__name__)
-
 router = APIRouter()
-
-
-# class Notification(BaseModel):
-#     x_request_id: str | None = None
-#     notice_id: UUID
-#     users_id: List[UUID]
-#     template_id: UUID | None
-#     transport: str
-#     priority: int | None = 0
-#     msg_type: str | None = None
-#     expire_at: datetime
 
 
 @router.post(
@@ -30,10 +17,13 @@ router = APIRouter()
 )
 async def post_notification(
         currency: str,
-        request: Request
+        request: Request,
+        session: AsyncSession = Depends(get_session)
 ) -> dict:
     logger.info(f'Получено оповещение')
     data = await request.body()
     data = data.decode()
     logger.info(data)
+    handler = NotifyHandler(currency, data, session)
+    handler.handle()
     return {'status': HTTPStatus.OK}
