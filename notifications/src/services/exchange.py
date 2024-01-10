@@ -48,7 +48,7 @@ class Exchange:
         d = self.get_position(currency)
         if d.get('result') \
                 and d['result'].get('list') \
-                and d['result']['list'].get('size') \
-                and d['result']['list']['size'] not in ('', '0'):
-            return d['result']['list']['size']
+                and len(d['result']['list']) > 0 \
+                and d['result']['list'][0]['size'] not in ('', '0'):
+            return d['result']['list'][0]['size']
         return None
