@@ -24,15 +24,17 @@ class NotifyHandler:
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=mapping[self.currency]['Buy'],
+                                                     initial_sell=mapping[self.currency]['Sell'],
                                                      sell=mapping[self.currency]['Sell'],
                                                      amount=mapping[self.currency]['Buy'])
                     self.exchange.buy(self.currency, mapping[self.currency]['Buy'])
                 elif res and res.operation != self.operation:
                     amount = float(res.amount) + float(res.buy)
-                    sell = float(res.sell) + float(res.sell)
+                    sell = float(res.sell) + float(res.initial_sell)
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=res.buy,
+                                                     initial_sell=res.initial_sell,
                                                      sell=str(sell),
                                                      amount=str(amount))
                     self.exchange.buy(self.currency, res.buy)
@@ -46,6 +48,7 @@ class NotifyHandler:
                             await self.storage.add_operation(currency=self.currency,
                                                              operation=self.operation,
                                                              buy=size,
+                                                             initial_sell=mapping[self.currency]['Sell'],
                                                              sell=mapping[self.currency]['Sell'],
                                                              amount=str(amount))
                 elif res and res.operation != self.operation and self.operation:
@@ -53,6 +56,7 @@ class NotifyHandler:
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=res.buy,
+                                                     initial_sell=res.initial_sell,
                                                      sell=res.sell,
                                                      amount=str(amount))
                     self.exchange.sell(self.currency, res.sell)
@@ -67,15 +71,17 @@ class NotifyHandler:
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=mapping[self.currency]['Buy'],
+                                                     initial_sell=mapping[self.currency]['Sell'],
                                                      sell=mapping[self.currency]['Sell'],
                                                      amount=mapping[self.currency]['Buy'])
                     self.exchange.sell(self.currency, mapping[self.currency]['Buy'])
                 elif res and res.operation != self.operation:
                     amount = float(res.amount) + float(res.buy)
-                    sell = float(res.sell) + float(res.sell)
+                    sell = float(res.sell) + float(res.initial_sell)
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=res.buy,
+                                                     initial_sell=res.initial_sell,
                                                      sell=str(sell),
                                                      amount=str(amount))
                     self.exchange.sell(self.currency, res.buy)
@@ -89,6 +95,7 @@ class NotifyHandler:
                             await self.storage.add_operation(currency=self.currency,
                                                              operation=self.operation,
                                                              buy=size,
+                                                             initial_sell=mapping[self.currency]['Sell'],
                                                              sell=mapping[self.currency]['Sell'],
                                                              amount=str(amount))
                 elif res and res.operation != self.operation and self.operation:
@@ -96,6 +103,7 @@ class NotifyHandler:
                     await self.storage.add_operation(currency=self.currency,
                                                      operation=self.operation,
                                                      buy=res.buy,
+                                                     initial_sell=res.initial_sell,
                                                      sell=res.sell,
                                                      amount=str(amount))
                     self.exchange.buy(self.currency, res.sell)

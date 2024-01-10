@@ -37,10 +37,10 @@ class Storage:
         return row
 
     @error_handler
-    async def add_operation(self, currency, operation, buy, sell, amount):
+    async def add_operation(self, currency, operation, buy, initial_sell, sell, amount):
         query = delete(Operations).where(Operations.currency == currency)
         await self.session.execute(query)
-        operation = Operations(currency=currency, operation=operation, buy=buy, sell=sell, amount=amount)
+        operation = Operations(currency=currency, operation=operation, buy=buy, initial_sell=initial_sell, sell=sell, amount=amount)
         self.session.add(operation)
 
     @error_handler

@@ -16,14 +16,14 @@ router = APIRouter()
 )
 async def post_notification(
         currency: str,
-        # request: Request,
-        data: str,
+        request: Request,
+        # data: str,
         session: AsyncSession = Depends(get_session)
 ) -> dict:
     try:
         logger.info('Получено оповещение {}'.format(currency))
-        # data = await request.body()
-        # data = data.decode()
+        data = await request.body()
+        data = data.decode()
         logger.info(data)
         handler = NotifyHandler(currency, data, session)
         await handler.handle()
