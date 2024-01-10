@@ -1,11 +1,10 @@
 import logging
 from functools import wraps
 from typing import Optional
-from sqlalchemy.exc import IntegrityError, DatabaseError
 from sqlalchemy.future import select
-from sqlalchemy import delete, update
+from sqlalchemy import delete
 
-from schemas.models import Operations, Profits
+from schemas.models import Operations, OperationsHistory
 
 logger = logging.getLogger(__name__)
 
@@ -47,3 +46,8 @@ class Storage:
     async def delete_operation(self, currency):
         query = delete(Operations).where(Operations.currency == currency)
         await self.session.execute(query)
+
+    @error_handler
+    async def add_history(self, currency, operation):
+        operation = OperationsHistory(currency=currency, operation=operation)
+        self.session.add(operation)

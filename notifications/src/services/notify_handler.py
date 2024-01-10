@@ -1,6 +1,7 @@
 import logging
-from schemas.positions import mapping
+
 from db.storage import Storage
+from schemas.positions import mapping
 from services.exchange import Exchange
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ class NotifyHandler:
 
     async def handle(self):
         logging.info('Начало обработки операции {} для пары {}'.format(self.operation, self.currency))
+        await self.storage.add_history(self.currency, self.operation)
         try:
             if self.operation in ('1L', '2L', '3L'):
                 res = await self.storage.check_operation(self.currency)

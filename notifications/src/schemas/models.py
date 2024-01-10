@@ -1,6 +1,7 @@
 from uuid import uuid4
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String
+from datetime import datetime
 
 
 class Base(DeclarativeBase):
@@ -29,10 +30,14 @@ class Operations(Base):
     amount = Column(String, nullable=False)
 
 
-class Profits(Base):
-    __tablename__ = "profits"
+class OperationsHistory(Base):
+    """
+        История всех операций с парами.
+    """
+    __tablename__ = "operations_history"
     __table_args__ = {'extend_existing': True}
 
     id = Column(String, primary_key=True, default=lambda: str(uuid4()))
-    currency = Column(String, nullable=False, unique=True)
+    currency = Column(String, nullable=False)
     operation = Column(String, nullable=False)
+    date = Column(String, nullable=False, default=lambda: str(datetime.now()))
