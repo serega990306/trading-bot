@@ -15,6 +15,16 @@ async def async_main() -> None:
     async with engine.begin() as conn:
         try:
             await conn.run_sync(Base.metadata.create_all)
+
+            # async with async_session() as session:
+            #     async with session.begin():
+            #         session.query(PositionQuantity).delete()
+            #         session.add_all(
+            #             [
+            #                 PositionQuantity(currency=currency, qty=qty) for currency, qty in mapping.items()
+            #             ]
+            #         )
+            #         await session.commit()
         except Exception as e:
             logging.error(f"Ошибка создания таблиц БД:\n{type(e)}\n{e}")
 

@@ -10,4 +10,4 @@ COPY src .
 
 EXPOSE 8000/tcp
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "main:app"]
+CMD ["/usr/local/bin/gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "-k", "uvicorn.workers.UvicornWorker", "main:app"]

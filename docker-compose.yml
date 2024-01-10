@@ -6,7 +6,7 @@ services:
     build: notifications
     restart: always
     env_file:
-      - notifications/src/.env.example
+      - notifications/src/.env
     expose:
       - "8000"
 

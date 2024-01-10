@@ -11,19 +11,25 @@ router = APIRouter()
 
 
 @router.post(
-    "/{currency}",
-    summary="Получение нотификаций",
-    openapi_extra={"x-request-id": "request ID"}
+    '/{currency}',
+    summary='Получение нотификаций'
 )
 async def post_notification(
         currency: str,
-        request: Request,
+        # request: Request,
+        data: str,
         session: AsyncSession = Depends(get_session)
 ) -> dict:
-    logger.info(f'Получено оповещение')
-    data = await request.body()
-    data = data.decode()
-    logger.info(data)
-    handler = NotifyHandler(currency, data, session)
-    handler.handle()
-    return {'status': HTTPStatus.OK}
+    try:
+        logger.info('Получено оповещение {}'.format(currency))
+        # data = await request.body()
+        # data = data.decode()
+        logger.info(data)
+        handler = NotifyHandler(currency, data, session)
+        await handler.handle()
+        return {'status': HTTPStatus.OK}
+    except Exception as e:
+        logger.error('Ошибка обработки оповещения {}:'.format(currency))
+        logger.error('{}\n{}'.format(type(e), e))
+        return {'status': HTTPStatus.INTERNAL_SERVER_ERROR}
+
