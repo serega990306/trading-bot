@@ -23,7 +23,7 @@ class NotifyHandler:
             try:
                 if self.operation in ('1L', '2L', '3L'):
                     res = await self.storage.check_operation(self.currency)
-                    if not res and self.operation == '1L':
+                    if not res and (self.operation == '1L' or self.operation == '2L'):
                         await self.storage.add_operation(currency=self.currency,
                                                          operation=self.operation,
                                                          buy=mapping[self.currency]['Buy'],
