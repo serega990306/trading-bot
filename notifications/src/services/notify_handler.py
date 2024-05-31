@@ -1,7 +1,9 @@
+import os
+import json
 import logging
 
 from db.storage import Storage
-from schemas.positions import mapping
+# from schemas.positions import mapping
 from services.exchange import Exchange
 
 logger = logging.getLogger(__name__)
@@ -19,6 +21,9 @@ class NotifyHandler:
     async def handle(self):
         logging.info('Начало обработки операции {} для пары {}'.format(self.operation, self.currency))
         await self.storage.add_history(self.currency, self.operation)
+        with open(f'{os.path.dirname(os.path.abspath(__file__))}/positions.txt') as f:
+            mapping = json.loads(f.read())
+
         if self.currency in mapping.keys():
             try:
                 if self.operation in ('1L', '2L', '3L'):

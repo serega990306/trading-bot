@@ -1,3 +1,4 @@
 mapping = {
-    'BTCUSDT': {'Buy': '0.005', 'Sell': '0.001'}
+    'BTCUSDT': {'Buy': '0.005', 'Sell': '0.001'},
+    'ETHUSDT': {'Buy': '0.05', 'Sell': '0.01'}
 }
